@@ -13,7 +13,7 @@ public class Level {
 
     Level(Player player) {
         this.player = player;
-        godBlock = new LevelObject(-100, -100, -1);
+        godBlock = new LevelObject(-100, -100, -1, null);
         levelObjects = new LevelObject[levelWidth][levelHeight];
         createStart();
         createEnd();

@@ -18,7 +18,7 @@ public class Game {
     private MouseEvent mouseEvent;
     private Point cursorLocation = new Point(0, 0);
     private Point screenCorner = new Point(0, 0);
-    private BufferedImage effectsSheet;
+    private BufferedImage effectsSheet, objectSheet;
     public int selectedObjectID = 0;
 
     private boolean lClick = false, rClick = false, mClick = false;
@@ -33,6 +33,12 @@ public class Game {
             effectsSheet = ImageIO.read(new File("assets/effects/effectsSheet.png"));
         } catch (Exception e) {
             System.out.println("image not found");
+        }
+        try {
+            objectSheet = ImageIO.read(new File("assets/world/groundSheet.png"));
+        }
+        catch (Exception e) {
+            System.out.println("Objects sprite sheet not found");
         }
     }
 
@@ -277,7 +283,7 @@ public class Game {
     }
 
     public LevelObject createLevelObject(int x, int y, int blockID) {
-        LevelObject tempObject = new LevelObject(x, y, blockID);
+        LevelObject tempObject = new LevelObject(x, y, blockID, objectSheet);
         return tempObject;
     }
 

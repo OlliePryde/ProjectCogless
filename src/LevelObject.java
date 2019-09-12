@@ -13,14 +13,9 @@ public class LevelObject extends GameObject {
     private BufferedImage[] textures = new BufferedImage[16];
     private double frictionalValue, stickyValue;
 
-    LevelObject(int x, int y, int blockID) {
+    LevelObject(int x, int y, int blockID, BufferedImage spriteSheet) {
         super(x,y);
-        try {
-            spriteSheet = ImageIO.read(new File("assets/world/groundSheet.png"));
-        }
-        catch (Exception e) {
-            System.out.println("Objects sprite sheet not found");
-        }
+        this.spriteSheet = spriteSheet;
         setBlockType(blockID);
         connectedTextureUpdate();
     }

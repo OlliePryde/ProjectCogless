@@ -320,6 +320,7 @@ public class GraphicDraw extends JPanel {
         drawEnd(gr);
         if (game.getCheckpoint() != null)
             drawCheckpoint(gr);
+
         Graphics2D g = (Graphics2D) gr;
         LevelObject[][] temp = game.getLevelObjects();
         for (LevelObject[] currentList : temp) {
@@ -329,7 +330,7 @@ public class GraphicDraw extends JPanel {
                     int y = applyLevelShiftY(current.getLocation().y);
                     int size = current.getLifeTime();
                     Image texture;
-                    if (size != 10) {
+                    if (size < 10) {
                         try {
                             texture = current.getTextures()[current.getConnectedTextureID()].getScaledInstance(size * 10, size * 10, Image.SCALE_FAST);
                         } catch (Exception e) {
@@ -354,10 +355,10 @@ public class GraphicDraw extends JPanel {
     }
 
     private int applyLevelShiftX(int xvalue) {
-        return xvalue - game.getScreenCorner().x;
+        return Math.round(xvalue - game.getScreenCorner().x);
     }
 
     private int applyLevelShiftY(int yvalue) {
-        return yvalue - game.getScreenCorner().y;
+        return Math.round(yvalue - game.getScreenCorner().y);
     }
 }
