@@ -18,7 +18,7 @@ public class Game {
     private MouseEvent mouseEvent;
     private Point cursorLocation = new Point(0, 0);
     private Point screenCorner = new Point(0, 0);
-    private BufferedImage effectsSheet, objectSheet;
+    private BufferedImage effectsSheet, objectSheet, playerSheet;
     public int selectedObjectID = 0;
 
     private boolean lClick = false, rClick = false, mClick = false;
@@ -27,8 +27,12 @@ public class Game {
     private int gameMode = 0;
 
     Game() {
-        this.player = new Player(0, 0);
+        imageReadIn();
+        this.player = new Player(0, 0, playerSheet);
         createNewLevel(player);
+    }
+
+    private void imageReadIn() {
         try {
             effectsSheet = ImageIO.read(new File("assets/effects/effectsSheet.png"));
         } catch (Exception e) {
@@ -39,6 +43,11 @@ public class Game {
         }
         catch (Exception e) {
             System.out.println("Objects sprite sheet not found");
+        }
+        try {
+            playerSheet = ImageIO.read(new File("assets/character/spriteSheet.png"));
+        } catch (Exception e) {
+            System.out.println("Character sprite sheet not found");
         }
     }
 
@@ -114,7 +123,9 @@ public class Game {
         if (player.getHealth() < 3) {
             int ratio = player.getHealth();
             if (ratio != 0 && runtime % (25 * ratio) == 0) {
-                addEffect(new Effect(0, player.getLocation().x - 50, player.getLocation().y + 25, effectsSheet));
+                int y = player.getLocation().y + (int) (Math.random() * 100);
+                int x = player.getLocation().x - 50 + (int) (Math.random() * 100);
+                addEffect(new Effect(0, x, y, effectsSheet));
             }
         }
     }

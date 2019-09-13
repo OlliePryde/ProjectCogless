@@ -19,13 +19,9 @@ public class Player extends GameObject {
     private double actingFriction = 0, actingStick = 1;
     private boolean onGround = false, lookRight = true, hit = false;
 
-    Player(int x, int y) {
+    Player(int x, int y, BufferedImage spriteSheet) {
         super(x, y);
-        try {
-            spriteSheet = ImageIO.read(new File("assets/character/spriteSheet.png"));
-        } catch (Exception e) {
-            System.out.println("Character sprite sheet not found");
-        }
+        this.spriteSheet = spriteSheet;
         setOutfitIndex(0, 0, 0, 0);
     }
 

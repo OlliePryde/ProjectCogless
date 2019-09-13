@@ -311,7 +311,6 @@ public class GraphicDraw extends JPanel {
                     texture = current.currentEffectTexture;
                 g.drawImage(texture, x, y, null);
             }
-
         }
     }
 
