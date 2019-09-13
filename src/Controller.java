@@ -176,8 +176,8 @@ public class Controller implements KeyListener, MouseListener, MouseMotionListen
         if (game.selectedObjectID < 0) {
             game.selectedObjectID = 0;
         }
-        else if (game.selectedObjectID > 2) {
-            game.selectedObjectID = 2;
+        else if (game.selectedObjectID > 3) {
+            game.selectedObjectID = 3;
         }
 }
 }

@@ -12,6 +12,7 @@ public class LevelObject extends GameObject {
     private BufferedImage spriteSheet;
     private BufferedImage[] textures = new BufferedImage[16];
     private double frictionalValue, stickyValue;
+    private boolean harmful = false;
 
     LevelObject(int x, int y, int blockID, BufferedImage spriteSheet) {
         super(x,y);
@@ -72,17 +73,26 @@ public class LevelObject extends GameObject {
                 frictionalValue = 1.5;
                 stickyValue = 1;
                 grabTextures(textures, 0);
+                harmful = false;
                 material = "ground";
                 break;
             case 1:
                 frictionalValue = 3;
                 stickyValue = 2;
                 material = "mud";
+                harmful = false;
                 break;
             case 2:
                 frictionalValue = 0.5;
                 stickyValue = 1;
+                harmful = false;
                 material = "ice";
+            case 3:
+                frictionalValue = 1.5;
+                stickyValue = 1;
+                harmful = true;
+                material = "spike";
+
         }
     }
 
@@ -139,5 +149,9 @@ public class LevelObject extends GameObject {
 
     public void setLifeTime(int lifeTime) {
         this.lifeTime = lifeTime;
+    }
+
+    public boolean isHarmful() {
+        return harmful;
     }
 }

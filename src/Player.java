@@ -255,11 +255,15 @@ public class Player extends GameObject {
                     airTime = 0;
                     actingFriction = levelObjects[location.x / 100][(location.y / 100) + 2].getFrictionalValue();
                     actingStick = levelObjects[location.x / 100][(location.y / 100) + 2].getStickyValue();
+                    if (levelObjects[location.x / 100][(location.y / 100) + 2].isHarmful())
+                        setHit(true);
                 } else if (location.x % 100 != 0 && levelObjects[location.x / 100 + 1][(location.y / 100) + 2] != null && levelObjects[location.x / 100 + 1][(location.y / 100) + 2].getBlockID() != -1) {
                     onGround = true;
                     airTime = 0;
                     actingFriction = levelObjects[location.x / 100 + 1][(location.y / 100) + 2].getFrictionalValue();
                     actingStick = levelObjects[location.x / 100 + 1][(location.y / 100) + 2].getStickyValue();
+                    if (levelObjects[location.x / 100 + 1][(location.y / 100) + 2].isHarmful())
+                        setHit(true);
                 } else {
                     onGround = false;
                     actingFriction = 0;
@@ -272,8 +276,9 @@ public class Player extends GameObject {
             onGround = false;
         for (int x = oldLocation.x / 100 - 3; x < oldLocation.x / 100 + 4; x++) {
             for (int y = oldLocation.y / 100 - 3; y < oldLocation.y / 100 + 4; y++) {
-                // NEED TO ADD MORE TO STOP OUT OF ARRAY CHECKS
                 if (x > 0 && y > 0 && x < currentLevel.getLevelWidth() && y < currentLevel.getLevelHeight() && levelObjects[x][y] != null && levelObjects[x][y].getBlockID() != -1 && MathsMethods.checkIntersect(newLocation, levelObjects[x][y])) {
+                    if (levelObjects[x][y].isHarmful())
+                        setHit(true);
                     newLocation.setY(newLocation.getY() - (velocity.getY() * 100d / 15d));
                     System.out.println("1");
                     if (levelObjects[x][y] != null && levelObjects[x][y].getBlockID() != -1 && MathsMethods.checkIntersect(newLocation, levelObjects[x][y])) {
