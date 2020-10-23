@@ -12,4 +12,5 @@ This project was developed over the course of Summer 2019 as a personal project 
 </p>
   
 <h2>Showcase Videos:</h2>
-<b> Prototype Video 1 </b> https://www.youtube.com/watch?v=LGzLfI_z7xw
+<b> Prototype Video 1 </b> https://www.youtube.com/watch?v=LGzLfI_z7xw <i> Note: This video is outdated to the current state of the project.</i>
+<b> Prototype Video 2 </b> https://www.youtube.com/watch?v=yy5EVUBgqeI <i> Note: This is the most up to date video.</i>
