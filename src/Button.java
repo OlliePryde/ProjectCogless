@@ -5,6 +5,8 @@ public class Button {
     int functionID;
     private Game game;
     private MenuScreen nextScreen;
+    private String label = "";
+    private Color colour = Color.RED;
 
     Button(int x, int y, int width, int height, int functionID, Game game) {
         location = new Point(x,y);
@@ -29,6 +31,22 @@ public class Button {
         return size;
     }
 
+    String getLabel() {
+        return this.label;
+    }
+
+    void setLabel(String lab) {
+        this.label = lab;
+    }
+
+    Color getColour() {
+        return colour;
+    }
+
+    void setColour(Color col) {
+        this.colour = col;
+    }
+
     boolean clickableAt(Point clickLocation) {
         int mouseX = clickLocation.x;
         int mouseY = clickLocation.y;
@@ -50,6 +68,7 @@ public class Button {
             case 2:
                 game.setGameMode(0);
                 game.setLClick(false);
+                label = "START";
         }
     }
 }

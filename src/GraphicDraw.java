@@ -28,6 +28,12 @@ public class GraphicDraw extends JPanel {
             drawPlayer(g);
         drawEffects(g);
 
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("TimesRoman", Font.BOLD, 20));
+        g.drawString("EXIT at anytime with ESC", 1650, 30);
+
+        drawPrototypeHUD(g);
+
         // HUD ELEMENTS
         if (game.isGrid())
             drawGrid(g);
@@ -38,7 +44,38 @@ public class GraphicDraw extends JPanel {
                 drawMenu(g);
             drawCursor(g);
         }
+    }
 
+    private void drawPrototypeHUD(Graphics gr) {
+        gr.setColor(Color.BLACK);
+        gr.setFont(new Font("TimesRoman", Font.BOLD, 32));
+        if (game.getGameMode() == 0) {
+            gr.drawString("BUILD MODE", 960, 50);
+            gr.setFont(new Font("TimesRoman", Font.ITALIC, 18));
+            gr.drawString("Use W/A/S/D to move the camera", 20, 70);
+            gr.drawString("Hold Shift to increase camera move speed", 20, 90);
+            gr.drawString("Press R to reset the level", 20, 110);
+            gr.drawString("Use Mouse Scroll Wheel to change block", 20, 130);
+            gr.drawString("Use Left Mouse Button to place", 20, 150);
+            gr.drawString("Use Right Mouse Button to remove",  20, 170);
+            gr.drawString("Use Middle Mouse Button to place the checkpoint or move the start/end point",  20, 190);
+            gr.drawString("You can only move the start/end points vertically",  20, 210);
+        }
+        else if (game.getGameMode() == 1) {
+            gr.drawString("PLAY MODE", 960, 50);
+            gr.setFont(new Font("TimesRoman", Font.ITALIC, 18));
+            gr.drawString("Press A/D to move left/right", 20, 70);
+            gr.drawString("Press Space to Jump", 20, 90);
+            gr.drawString("Hold Shift whilst moving to \"run\"", 20, 110);
+            gr.drawString("Hold R to self destruct", 20, 130);
+        }
+        if (game.getGameMode() != -1) {
+            gr.setFont(new Font("TimesRoman", Font.BOLD, 32));
+            gr.drawString("CONTROLS:", 20, 40);
+            gr.setFont(new Font("TimesRoman", Font.ITALIC, 18));
+            gr.drawString("Press B to change between Play/Build Mode", 880, 70);
+            gr.drawString("Press G to toggle grid", 965, 90);
+        }
     }
 
     private void drawDebug(Graphics gr) {
@@ -55,15 +92,20 @@ public class GraphicDraw extends JPanel {
         g.drawString("PLAYER ON GROUND: " + game.player.isOnGround() + " AIRTIME: " + game.player.airTime, 20, 180);
         g.drawString("PLAYER STATS: HEALTH: " + game.player.getHealth() + " LIVES: " + game.player.getLives() + " INVIN: " + game.player.getInvincibility() + " DEATH: " + game.player.deathTime, 20, 200);
         g.drawString("SELECTED BLOCK ID (BUILD MODE): " + game.selectedObjectID, 20, 220);
+        g.drawString("SELECTED BLOCK NAME (BUILD MODE): " + LevelObject.getBlockNameFromID(game.selectedObjectID), 20, 240);
     }
 
     private void drawMenu(Graphics gr) {
         Graphics2D g =  (Graphics2D) gr;
         MenuScreen menu = game.getCurrentMenu();
-        g.setColor(Color.RED);
         for (Button button : menu.menuButtons) {
-            if (button != null)
+            if (button != null) {
+                g.setColor(button.getColour());
                 g.fillRect(button.location.x, button.location.y, button.size.x, button.size.y);
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                g.drawString(button.getLabel(), button.location.x + 25, button.location.y + (button.size.y/2));
+            }
         }
     }
 
@@ -389,6 +431,12 @@ public class GraphicDraw extends JPanel {
         Graphics2D g = (Graphics2D) gr;
         g.setColor(Color.red);
         g.fillRect(game.getCursorLocation().x - 5, game.getCursorLocation().y - 5, 10, 10);
+        if(game.getGameMode() == 0) {
+            g.setColor(Color.black);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+            g.drawString("SELECTED BLOCK NAME: " + LevelObject.getBlockNameFromID(game.selectedObjectID), game.getCursorLocation().x + 20, game.getCursorLocation().y + 20);
+            g.setFont(new Font("TimesRoman", Font.ITALIC, 16));
+        }
     }
 
     private int applyLevelShiftX(int xvalue) {

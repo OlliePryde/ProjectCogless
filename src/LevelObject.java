@@ -99,6 +99,20 @@ public class LevelObject extends GameObject {
         }
     }
 
+    public static String getBlockNameFromID(int id) {
+        switch (id) {
+            case 0:
+                return "ground";
+            case 1:
+                return "mud";
+            case 2:
+                return "ice";
+            case 3:
+                return "spike";
+        }
+        return "null";
+    }
+
     public int getBlockID() {
         return blockID;
     }

@@ -8,8 +8,10 @@ public class MenuScreen {
     MenuScreen(String menuName, Game game) {
         this.menuName = menuName;
         this.game = game;
-        menuButtons[0] = new Button(20,20,100,20,0, game);
-        menuButtons[1] = new Button(20,60,100,20,2, game);
+        menuButtons[0] = new Button(20,20,100,40,0, game);
+        menuButtons[0].setLabel("EXIT");
+        menuButtons[1] = new Button(20,100,100,40,2, game);
+        menuButtons[1].setLabel("START");
     }
 
     public void interact(Point cursorLocation) {
