@@ -9,27 +9,30 @@ public class Game {
     Player player;
     public final int OBJECT_SIZE = 100;
     private Level currentLevel;
+    private MenuScreen mainMenu, currentMenu;
     private Effect[] effects = new Effect[100];
     private int runtime = 0, effectsCount;
     boolean debug = false;
     static boolean godPause = false;
 
-    private boolean grid = false;
+    private boolean grid = true;
     private MouseEvent mouseEvent;
     private Point cursorLocation = new Point(0, 0);
-    private Point screenCorner = new Point(0, 0);
+    private Point screenCorner = new Point(0, 1250);
     private BufferedImage effectsSheet, objectSheet, playerSheet;
     public int selectedObjectID = 0;
 
     private boolean lClick = false, rClick = false, mClick = false;
     private boolean keyA = false, keyD = false, keyW = false, keyS = false, keySpace = false, keyShift = false, keyR = false;
 
-    private int gameMode = 0;
+    private int gameMode = -1;
 
     Game() {
         imageReadIn();
         this.player = new Player(0, 0, playerSheet);
         createNewLevel(player);
+        mainMenu = new MenuScreen("main", this);
+        setCurrentMenu(mainMenu);
     }
 
     private void imageReadIn() {
@@ -39,7 +42,7 @@ public class Game {
             System.out.println("image not found");
         }
         try {
-            objectSheet = ImageIO.read(new File("assets/world/groundSheet.png"));
+            objectSheet = ImageIO.read(new File("assets/world/worldSheet.png"));
         }
         catch (Exception e) {
             System.out.println("Objects sprite sheet not found");
@@ -55,11 +58,31 @@ public class Game {
         runtime++;
         lifeTimeUpdate();
         switch (gameMode) {
+            case -1:
+                menuMode();
+                break;
             case 0:
                 buildMode();
                 break;
             case 1:
                 playMode();
+                break;
+            default: gameMode = -1;
+        }
+    }
+
+    public void setCurrentMenu(MenuScreen newMenu) {
+        this.currentMenu = newMenu;
+    }
+
+    public MenuScreen getCurrentMenu() {
+        return currentMenu;
+    }
+
+    private void menuMode() {
+        updateCursorLocation(mouseEvent);
+        if (lClick) {
+            currentMenu.interact(cursorLocation);
         }
     }
 

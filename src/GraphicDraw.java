@@ -33,8 +33,12 @@ public class GraphicDraw extends JPanel {
             drawGrid(g);
         if (game.isDebug())
             drawDebug(g);
-        if (game.getGameMode() == 0)
+        if (game.getGameMode() == 0 || game.getGameMode() == -1) {
+            if (game.getGameMode() == -1)
+                drawMenu(g);
             drawCursor(g);
+        }
+
     }
 
     private void drawDebug(Graphics gr) {
@@ -51,6 +55,16 @@ public class GraphicDraw extends JPanel {
         g.drawString("PLAYER ON GROUND: " + game.player.isOnGround() + " AIRTIME: " + game.player.airTime, 20, 180);
         g.drawString("PLAYER STATS: HEALTH: " + game.player.getHealth() + " LIVES: " + game.player.getLives() + " INVIN: " + game.player.getInvincibility() + " DEATH: " + game.player.deathTime, 20, 200);
         g.drawString("SELECTED BLOCK ID (BUILD MODE): " + game.selectedObjectID, 20, 220);
+    }
+
+    private void drawMenu(Graphics gr) {
+        Graphics2D g =  (Graphics2D) gr;
+        MenuScreen menu = game.getCurrentMenu();
+        g.setColor(Color.RED);
+        for (Button button : menu.menuButtons) {
+            if (button != null)
+                g.fillRect(button.location.x, button.location.y, button.size.x, button.size.y);
+        }
     }
 
     private void drawGrid(Graphics gr) {
@@ -84,20 +98,24 @@ public class GraphicDraw extends JPanel {
 
         //HITBOX
         //g.fillRect(x, y, game.OBJECT_SIZE, game.player.getHeight());
-        if (game.player.getSelfDestructTime() > 0) {
-            if (game.player.isEyesOpen()) {
-                game.player.toggleBlink();
+        if (game.player.deathTime == 0) {
+            if (game.player.getSelfDestructTime() > 0) {
+                if (game.player.isEyesOpen()) {
+                    game.player.toggleBlink();
+                }
+                playerDestruct(g, outfit, x, y);
+            } else {
+                if (game.player.getVelocity().getX() == 0 && game.player.isOnGround())
+                    playerIdle(g, outfit, x, y);
+                else
+                    playerMove(g, outfit, x, y);
+                playerBlink();
             }
-            playerDestruct(g, outfit, x, y);
+            //ARM
+            g.drawImage(outfit[2], x + 15, y + 55, null);
         } else {
-            if (game.player.getVelocity().getX() == 0 && game.player.isOnGround())
-                playerIdle(g, outfit, x, y);
-            else
-                playerMove(g, outfit, x, y);
-            playerBlink(g, outfit, x, y);
+            playerDeath(g, outfit, x, y);
         }
-        //ARM
-        g.drawImage(outfit[2], x + 15, y + 55, null);
 
 //        //BODY
 //        g.drawImage(outfit[1],x,y+70,null);
@@ -114,9 +132,29 @@ public class GraphicDraw extends JPanel {
 
     }
 
-    private void playerBlink(Graphics gr, BufferedImage[] outfit, int x, int y) {
-        Graphics2D g = (Graphics2D) gr;
+    private void playerDeath(Graphics gr, BufferedImage[] outfit, int x, int y) {
+        Graphics g = (Graphics2D) gr;
+        int deathTime = game.player.deathTime;
+//        if (game.player.deathTime > 180) {
+//
+//        } else {
+//            // NEED TO FIND A WAY TO MAKE AN EXPLOSION ARC
+//            //BODY
+//            g.drawImage(outfit[1], x + (), y + 70, null);
+//            //HEAD
+//            g.drawImage(outfit[0], x, y - 15, null);
+//            //LEGS
+//            g.drawImage(outfit[3], x, y + 115, null);
+//            // g.drawImage(outfit[4],x,y+115,null);
+//            //EYES
+//            g.drawImage(outfit[5], x, y - 15, null);
+//            //g.drawImage(outfit[6],x,y-15,null);
+//            //ARM
+//            g.drawImage(outfit[2], x + 15, y + 55, null);
+//        }
+    }
 
+    private void playerBlink() {
         if (animFrame == 1 && game.player.isEyesOpen()) {
             game.player.toggleBlink();
         } else if (animFrame == 2 && !game.player.isEyesOpen()) {

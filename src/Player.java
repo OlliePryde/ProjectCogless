@@ -15,7 +15,7 @@ public class Player extends GameObject {
     private Vector force = new Vector(0, 0);
     private Vector acceleration = new Vector(0, 0);
     int sprintTime = 0, airTime = 0, selfDestructTime = 0, invincibility = 0, deathTime = 0;
-    private int lives = 3, health = 3;
+    private int lives = 3, health = 3, cogs = 0;
     private double actingFriction = 0, actingStick = 1;
     private boolean onGround = false, lookRight = true, hit = false;
 
@@ -152,6 +152,10 @@ public class Player extends GameObject {
         }
     }
 
+    public void addCogs(int value) {
+        cogs += value;
+    }
+
     public void deathSequence() {
         deathTime = 200;
         Game.godPause(true);
@@ -234,20 +238,6 @@ public class Player extends GameObject {
     private Vector collisionUpdate(Point oldLocation, Vector newLocation, Level currentLevel) {
         LevelObject[][] levelObjects = currentLevel.getLevelObjects();
         airTime++;
-        if (newLocation.getX() < 0) {
-            newLocation.setX(1);
-            force.setX(0);
-            velocity.setX(0);
-            acceleration.setX(0);
-            sprintTime = 0;
-        }
-        else if (newLocation.getX() > currentLevel.getLevelWidth()*100 - 100) {
-            newLocation.setX(currentLevel.getLevelWidth()*100 - 100);
-            force.setX(0);
-            velocity.setX(0);
-            acceleration.setX(0);
-            sprintTime = 0;
-        }
         if ((location.y / 100) + 1 > 0 && (location.y / 100) + 1 < currentLevel.getLevelHeight() - 1) {
             if (location.y % 100 == 0 && location.y > 0 && location.y < currentLevel.getLevelHeight() * 100)
                 if (levelObjects[location.x / 100][(location.y / 100) + 2] != null && levelObjects[location.x / 100][(location.y / 100) + 2].getBlockID() != -1) {
@@ -309,6 +299,20 @@ public class Player extends GameObject {
                     }
                 }
             }
+        }
+        if (newLocation.getX() < 0) {
+            newLocation.setX(1);
+            force.setX(0);
+            velocity.setX(0);
+            acceleration.setX(0);
+            sprintTime = 0;
+        }
+        else if (newLocation.getX() > currentLevel.getLevelWidth()*100 - 100) {
+            newLocation.setX(currentLevel.getLevelWidth()*100 - 100);
+            force.setX(0);
+            velocity.setX(0);
+            acceleration.setX(0);
+            sprintTime = 0;
         }
         return newLocation;
     }

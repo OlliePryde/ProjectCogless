@@ -72,10 +72,17 @@ public class Controller implements KeyListener, MouseListener, MouseMotionListen
         }
 
         if (e.getKeyCode() == KeyEvent.VK_B) {
-            if (game.getGameMode() == 0)
+            if (game.getGameMode() == 0) {
                 game.setGameMode(1);
-            else
+                if (game.isGrid())
+                    game.setGrid(false);
+            }
+            else {
                 game.setGameMode(0);
+                if (!game.isGrid())
+                    game.setGrid(true);
+            }
+
         }
 
         if (e.getKeyCode() == KeyEvent.VK_F3) {

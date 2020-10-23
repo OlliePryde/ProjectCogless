@@ -2,5 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="-Dsun.java2d.opengl=True" />
+    <bytecodeTargetLevel target="8" />
   </component>
 </project>

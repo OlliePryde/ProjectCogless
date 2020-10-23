@@ -79,6 +79,7 @@ public class LevelObject extends GameObject {
             case 1:
                 frictionalValue = 3;
                 stickyValue = 2;
+                grabTextures(textures, 1);
                 material = "mud";
                 harmful = false;
                 break;
@@ -86,7 +87,9 @@ public class LevelObject extends GameObject {
                 frictionalValue = 0.5;
                 stickyValue = 1;
                 harmful = false;
+                grabTextures(textures, 2);
                 material = "ice";
+                break;
             case 3:
                 frictionalValue = 1.5;
                 stickyValue = 1;
